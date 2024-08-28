@@ -1,6 +1,6 @@
 # 👋 About the GrowBase Project
 
-GrowBase is a Raspberry Pi-based system connected to a local wi-fi that serves as the base station for the MistBuddy, CO2Buddy, and SnifferBuddy projects. It provides a centralized platform for monitoring and controlling environmental conditions in grow environments. _All data remains local. Nothing is sent to a cloud service._
+GrowBase is a Raspberry Pi-based system connected to a local wi-fi that serves as the base station for the [MistBuddy-Lite](https://github.com/solarslurpi/mistbuddy_lite), CO2Buddy, and SnifferBuddy projects. It provides a centralized platform for monitoring and controlling environmental conditions in grow environments. _All data remains local. Nothing is sent to a cloud service._
 
 <div style="text-align: center;">
 <img src="docs/images/GrowBase_Overview.png" alt="GrowBase Overview" style="width: 300px;">
