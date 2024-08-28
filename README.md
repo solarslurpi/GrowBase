@@ -10,6 +10,7 @@ GrowBase is a Raspberry Pi-based system connected to a local wi-fi that serves a
 
 # 🙏 Thanks to Those That Went Before
 - **THANK YOU Adafruit**: [Adafruit](https://www.adafruit.com/) is an incredible company that consistently inspires and empowers the maker community with innovative products and resources. Their commitment to education and open-source hardware is unmatched, thanks to the vision and leadership of their founders. Thank you for making such a positive impact on so many lives.
+- **THANK YOU Alex Ellis**: for the [Getting Started with Docker on Raspberry Pi](https://blog.alexellis.io/getting-started-with-docker-on-raspberry-pi/) blog post.  
 - **THANK YOU Raspberry Pi Foundation**: For creating an affordable, versatile computing platform that serves as the heart of this project.
 
 # 🔩 Build the GrowBase
@@ -63,8 +64,14 @@ pi@<ip address>:~ $
 ```
 If you cannot reach your GrowBase from your Mac/PC, first check to see if the raspberry pi is on your home wifi by using a utility like [Angry IP](https://angryip.org/).  If it is not, perhaps [this troubleshooting guide](raspi-nowifi) can help.
 
+### 2. Reduce GPU Memory
+GrowBase runs a headless install of Raspberry Pi and is not doing any video or audio processing.  Processing of GrowBase tasks can improve by editing `/boot/config.txt` and adding this line:
+```bash
+gpu_mem=16
+```
+make sure to save the file after editing.
 
-### 2. Install and Configure the MQTT Broker
+### 3. Install and Configure the MQTT Broker
 
 [This source](http://www.steves-internet-guide.com/mosquitto-broker/) provides more information on the mosquitto broker.
 
@@ -94,5 +101,10 @@ If you cannot reach your GrowBase from your Mac/PC, first check to see if the ra
      sudo systemctl restart mosquitto
      ```
 > Note: If you are only building MistBuddy-Lite, this is all you need.  Happy Misting!
+
+### 4. Install Docker
+```bash
+curl -sSL https://get.docker.com | sh
+```
 
 (The rest of the documentation will be completed as the other Buddies come on line).
