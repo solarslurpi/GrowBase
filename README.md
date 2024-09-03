@@ -71,40 +71,33 @@ gpu_mem=16
 ```
 make sure to save the file after editing.
 
-### 3. Install and Configure the MQTT Broker
+### 3. Set a Static IP
+The most error free method of connecting to another machine on the WiFi is setting a static IP on the machine. The method to set a static IP has completely changed in `bookworm` as it was done in previous version of the Raspberry Pi OS.  This discussion focuses on setting a static IP address for a Raspberry Pi running `bookworm`.
 
-[This source](http://www.steves-internet-guide.com/mosquitto-broker/) provides more information on the mosquitto broker.
-
-   - Connect to your Raspberry Pi via SSH.
-   - Update the system: `sudo apt update && sudo apt upgrade -y`
-   - Install Mosquitto: `sudo apt install mosquitto mosquitto-clients -y`
-   - Check Mosquitto status: `sudo systemctl status mosquitto`
-   - If not running, start Mosquitto: `sudo systemctl start mosquitto`
-   - Enable Mosquitto: `sudo systemctl enable mosquitto`
-   - Create a custom configuration file:
-     ```bash
-     sudo nano /etc/mosquitto/conf.d/connect.conf
-     ```
-   - Copy and paste the following into the new connect.conf file:
-     ```bash
-     listener 1883
-     protocol mqtt
-
-     listener 9000
-     protocol websockets
-
-     allow_anonymous true
-     ```
-   - Save the file (Ctrl+X, then Y, then Enter)
-   - Restart Mosquitto to apply the changes:
-     ```bash
-     sudo systemctl restart mosquitto
-     ```
-> Note: If you are only building MistBuddy-Lite, this is all you need.  Happy Misting!
-
-### 4. Install Docker
+1. Verify the Raspberry Pi is running `bookworm`:
 ```bash
-curl -sSL https://get.docker.com | sh
+ $ hostnamectl
+ Static hostname: beanie
+       Icon name: computer
+      Machine ID: e1f7b307406342e29e487e0d9df67c0d
+         Boot ID: e448da74cad145d59b4bd535b8afc307
+Operating System: Debian GNU/Linux 12 (bookworm)
+          Kernel: Linux 6.6.31+rpt-rpi-2712
+    Architecture: arm64
 ```
+2. Gather network info
+- Let's go ahead and use the current IP address. We will also need the default gateway:
+```bash
+$ ip route
+default via 192.168.68.1 dev wlan0 proto dhcp src 192.168.68.67 metric 600
+172.17.0.0/16 dev docker0 proto kernel scope link src 172.17.0.1 linkdown
+192.168.68.0/22 dev wlan0 proto kernel scope link src 192.168.68.67 metric 600
+```
+The default gateway is 192.168.68.1 and the current IP address is 192.168.68.67.
+
+4. Use nmtui
+There is a new tool in `bookworm`, nmtui. `$ sudo nmtui`.  Choose to `Edit the connection`. Go to the WiFi configuration page.  Set IPv4 CONFIGURATION to `<Manual>`. Change  the gateway.  Tab to the bottom and hit `<Enter>` on `OK`. Reboot once out of the utility.
+
+
 
 (The rest of the documentation will be completed as the other Buddies come on line).
