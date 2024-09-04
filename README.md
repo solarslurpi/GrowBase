@@ -96,7 +96,7 @@ default via 192.168.68.1 dev wlan0 proto dhcp src 192.168.68.67 metric 600
 The default gateway is 192.168.68.1 and the current IP address is 192.168.68.67.
 
 4. Use nmtui
-There is a new tool in `bookworm`, nmtui. `$ sudo nmtui`.  Choose to `Edit the connection`. Go to the WiFi configuration page.  Set IPv4 CONFIGURATION to `<Manual>`. Change  the gateway.  Tab to the bottom and hit `<Enter>` on `OK`. Reboot once out of the utility.
+There is a new tool in `bookworm`, nmtui. `$ sudo nmtui`.  Choose to `Edit the connection`. Go to the WiFi configuration page.  Set IPv4 CONFIGURATION to `<Manual>`. Set the gateway and DNS Servers IP addresses.  Tab to the bottom and hit `<Enter>` on `OK`. Reboot once out of the utility.
 
 
 
