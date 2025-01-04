@@ -1,12 +1,19 @@
 # 👋 About the GrowBase Project
 
-GrowBase is a Raspberry Pi-based system connected to a local wi-fi that serves as the base station for the [MistBuddy-Lite](https://github.com/solarslurpi/mistbuddy_lite), CO2Buddy, and SnifferBuddy projects. It provides a centralized platform for monitoring and controlling environmental conditions in grow environments. _All data remains local. Nothing is sent to a cloud service._
+GrowBase is a Raspberry Pi-based system connected to a local wi-fi that serves as the base station for the GrowBuddies.  Current GrowBuddies include:
+
+- [SnifferBuddy](https://github.com/solarslurpi/snifferbuddy) 
+- [MistBuddy-Lite](https://github.com/solarslurpi/mistbuddy_lite)
+
+Other GrowBuddies are possible.
+
+GrowBase provides a centralized platform for monitoring and controlling environmental conditions in grow environments. _All data remains local. Nothing is sent to a cloud service._
 
 <div style="text-align: center;">
 <img src="docs/images/GrowBase_Overview.png" alt="GrowBase Overview" style="width: 300px;">
 </div>
 
-
+Because the Raspberry Pi runs a Linux variant for its OS, many packages, such as the mosquitto mqqt broker as well as Grafana and Telegraph are available.  All GrowBuddies use the mqtt broker.
 
 # 🙏 Thanks to Those That Went Before
 - **THANK YOU Adafruit**: [Adafruit](https://www.adafruit.com/) is an incredible company that consistently inspires and empowers the maker community with innovative products and resources. Their commitment to education and open-source hardware is unmatched, thanks to the vision and leadership of their founders. Thank you for making such a positive impact on so many lives.
