@@ -38,21 +38,12 @@ The supplies needed to build GrowBase include:
 
 | Component | File
 |-----------|------|
-| top | The top can be multicolored yet does not require a 3D printer that can print multiple filaments at once.<br>The two files include [Pi4 Top Hex color 1](../enclosures/GrowBuddy/Pi4_Top_Hex_MM2_Color1.stl) and [Pi4 Top Hex color 2](../enclosures/GrowBuddy/Pi4_Top_Hex_MM2_Color2.stl).  If you are unsure how to print for <br>multi-color, Malalo has provide [multi-color printing directions](https://www.thingiverse.com/thing:3719217)
-| bottom | [Pi4 Bottom with slots](../enclosures/GrowBuddy/Pi4_Bottom_Slots_SM.stl)
-#### Raspberry Pi 3 Case
-Raspberry Pi 3 (I've tried it.  But better just to start with the Raspberry Pi 4):
-| Component | File |
-|-----------|------|
-| top | Similar to the top for the Raspberry Pi 4, two files are used.  The first is [Pi3 Top Hex color 1](../enclosures/GrowBuddy/Pi3_Top_Hex_MM2_Color1.stl).<br>The second is [Pi3 Top Hex color 2](../enclosures/GrowBuddy/Pi3_Top_Hex_MM2_Color2.stl)
-| bottom | [Pi3 Bottom with slots](../enclosures/GrowBuddy/PI3_Bottom_Slots_SM.stl)
+| top | The top can be multicolored yet does not require a 3D printer that can print multiple filaments at once.<br>The two files are located in the enclosures directory, `Pi4_Top_Hex_MM2_Color1.stl` and `Pi4_Top_Hex_MM2_Color2.stl`.  If you are unsure how to print for <br>multi-color, Malalo has provide [multi-color printing directions](https://www.thingiverse.com/thing:3719217)
+| bottom | `Pi4_Bottom_Slots_SM.stl`
 
 Fit the Raspberry Pi into the enclosure after it has been printed.
 
-
-## 🖥️ Install the Software
-
-### 1. Install Raspberry Pi OS
+##  🖥️ Install Raspberry Pi OS
 
    The easiest way is to use the [Raspberry Pi imager](https://www.raspberrypi.com/software/) on the micro SD card.
       - Install the latest Raspberry Pi Lite 64 bit OS.
@@ -71,14 +62,14 @@ pi@<ip address>:~ $
 ```
 If you cannot reach your GrowBase from your Mac/PC, first check to see if the raspberry pi is on your home wifi by using a utility like [Angry IP](https://angryip.org/).  If it is not, perhaps [this troubleshooting guide](raspi-nowifi) can help.
 
-### 2. Reduce GPU Memory
+###  Reduce GPU Memory
 GrowBase runs a headless install of Raspberry Pi and is not doing any video or audio processing.  Processing of GrowBase tasks can improve by editing `/boot/config.txt` and adding this line:
 ```bash
 gpu_mem=16
 ```
 make sure to save the file after editing.
 
-### 3. Set a Static IP
+###  Set a Static IP
 The most error free method of connecting to another machine on the WiFi is setting a static IP on the machine. The method to set a static IP has completely changed in `bookworm` as it was done in previous version of the Raspberry Pi OS.  This discussion focuses on setting a static IP address for a Raspberry Pi running `bookworm`.
 
 1. Verify the Raspberry Pi is running `bookworm`:
@@ -105,6 +96,46 @@ The default gateway is 192.168.68.1 and the current IP address is 192.168.68.67.
 4. Use nmtui
 There is a new tool in `bookworm`, nmtui. `$ sudo nmtui`.  Choose to `Edit the connection`. Go to the WiFi configuration page.  Set IPv4 CONFIGURATION to `<Manual>`. Set the gateway and DNS Servers IP addresses.  Tab to the bottom and hit `<Enter>` on `OK`. Reboot once out of the utility.
 
+### Install mosquitto
+`MQTT` is used by the GrowBuddies (currently that includes [SnifferBuddy](https://github.com/solarslurpi/snifferbuddy) and [MistBuddy-Lite](https://github.com/solarslurpi/mistbuddy_lite) to send sensor data (in the case of SnifferBuddy) and send power on/off command (in the case of MistBuddy-Lite).
 
+Install the Mosquitto MQTT broker:
+```bash
+sudo apt update
+sudo apt install -y mosquitto 
+```
 
-(The rest of the documentation will be completed as the other Buddies come on line).
+Enable Mosquitto to start automatically on boot:
+```bash
+sudo systemctl enable mosquitto
+```
+Before installing the service, some unique settings are needed in Mosquitto's config file.
+
+Create the `connect.conf` file. From a terminal open on the Raspberry Pi:
+```bash
+$ cd /etc/mosquitto/conf.d
+$ sudo nano connect.conf
+```
+copy/ paste the following into the new `connect.conf` file:
+```
+listener 1883
+protocol mqtt
+
+allow_anonymous true
+```
+save and exit.
+
+Finally, start the Mosquitto service:
+```bash
+sudo systemctl start mosquitto
+```
+
+You can verify the service is running with:
+```bash
+sudo systemctl status mosquitto
+```
+To view the logs:
+```bash
+sudo journalctl -u mosquitto -f
+```
+the `-f` flag will show the logs as they are written.
